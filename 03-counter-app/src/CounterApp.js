@@ -1,28 +1,28 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 
-const CounterApp = () => {
+const CounterApp = ({value=0}) => {
     
-    const [value, setValue] = useState(0);
+    const [count, setValue] = useState(value);
 
     // cambio directo
     const handleAdd = () => {
-        setValue(value + 1);
+        setValue(count + 1);
     }
 
     const handleReset = () => {
-        setValue( 0 );
+        setValue( value );
     }
 
     // cambio con función
     const handleSubtrat = () => {
-        setValue( (value) => value - 1 );
+        setValue( (count) => count - 1 );
     }
 
     return (
         <div>
         <h1>Counter App</h1>
-        <h2>Count: {value}</h2>
+        <h2>Count: {count}</h2>
 
         <button onClick={ handleAdd }>+1</button>
         <button onClick={ handleReset }>Reset</button>
