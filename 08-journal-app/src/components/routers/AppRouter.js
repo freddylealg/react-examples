@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import {BrowserRouter, Redirect, Switch} from 'react-router-dom';
 import { login } from '../../actions/auth';
+import { startLoadingNotes } from '../../actions/notes';
 import { JournalScreen } from '../journal/JournalScreen';
 import { AuthRouter } from './AuthRouter';
 import { PrivateRoute } from './PrivateRoute';
@@ -19,6 +20,7 @@ export const AppRouter = () => {
             if( user?.uid ) {
                 dispatch( login(user.uid, user.displayName) );
                 setIsLoggedIn(true);
+                dispatch( startLoadingNotes(user.uid) )
             } else {
                 setIsLoggedIn(false);
             }
@@ -28,7 +30,7 @@ export const AppRouter = () => {
 
     if( checking ){
         return (
-            <h3>Espere por favor...</h3>
+            <h3>Loading...</h3>
         )
     }
 

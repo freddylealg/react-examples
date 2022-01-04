@@ -1,27 +1,51 @@
-import React from 'react'
+import React from 'react';
+import moment from 'moment';
+import { useDispatch } from 'react-redux';
+import { activeNote } from '../../actions/notes';
 
-export const JournalEntry = () => {
+export const JournalEntry = ({id, date, title, body, url}) => {
+
+    const dispatch = useDispatch();
+    const noteDate = moment( date );
+
+    const handleEntryClick = () => {
+        const note = {
+            date,
+            title,
+            body,
+            url
+        }
+        dispatch( activeNote(id, note) )
+    } 
+
     return (
-        <div className='journal__entry pointer'>
-            <div 
-                className='journal__entry-picture'
-                style={{
-                    backgroundSize: 'cover',
-                    backgroundImage: 'url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiyJijq5Hj7SSlRv7vdWkSeRBrtSOof2rR5m2ZldE2kGl9Lp4PC8wYSO-nUZKU3n2fniE&usqp=CAU)'
-                }}
-            ></div>
+        <div 
+            className='journal__entry pointer'
+            onClick={ handleEntryClick }    
+        >
+
+            {
+                url && 
+                <div 
+                    className='journal__entry-picture'
+                    style={{
+                        backgroundSize: 'cover',
+                        backgroundImage: `url(${ url })`
+                    }}
+                ></div>
+            }
+
             <div className='journal__entry-body'>
                 <p className='journal__entry_title'>
-                    Un nuevo día 
+                    { title }
                 </p>
                 <p className='journal__entry_content'>
-                    Eso es un texto largo que uso como ejemplo para el 
-                    contenido de la tarjeta del journal
+                    { body }
                 </p>
             </div>
             <div className='journal__entry-date-box'>
-                <span>Monday</span>
-                <h4>28</h4>
+                <span>{ noteDate.format('dddd') }</span>
+                <h4>{ noteDate.format('Do') }</h4>
             </div>
         </div>
     )
